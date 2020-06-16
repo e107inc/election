@@ -14,54 +14,74 @@
 | $Author: Neil $
 +---------------------------------------------------------------+
 */
+
 /**
  * Model Object for an Election user
  * Holds information relating to the current user and what they are allowed to do in Election
  */
-class electionUser {
-   var $user;     // user data
-   var $privs;    // an array of election privilieges, index on election ID
+class electionUser
+{
+    private $user;     // user data
+    private $privs;    // an array of election privilieges, index on election ID
 
-   /**
-    * Constructor
-    * @param $elections  a Election object or an array of Election objects
-    */
-   function electionUser($elections) {
-      if (!is_array($elections)) {
-         $electionlist[$elections->getId()] = $elections;
-      } else {
-         $electionlist = $elections;
-      }
+    /**
+     * Constructor
+     * @param object $elections a Election object or an array of Election objects
+     */
+    function __construct($elections)
+    {
+        if (!is_array($elections))
+        {
+            $electionlist[$elections->getId()] = $elections;
+        }
+        else
+        {
+            $electionlist = $elections;
+        }
 
-      foreach ($electionlist as $election) {
-         $this->setViewElection($election);
-         $this->setViewElectionResults($election);
-         $this->setVoteElection($election);
-      }
-      $this->user = e107::user(USERID);
-   }
-   // Setters
-   function setViewElection($election) {
-      $this->privs[$election->getId()]["view"] = check_class($election->getViewClass());
-   }
-   function setViewElectionResults($election) {
-      $this->privs[$election->getId()]["view_results"] = check_class($election->getViewResultsClass());
-   }
-   function setVoteElection($election) {
-      $this->privs[$election->getId()]["vote"] = check_class($election->getVoteClass()) || USERID == $election->getOwnerId();
-   }
+        foreach ($electionlist as $election)
+        {
+            $this->setViewElection($election);
+            $this->setViewElectionResults($election);
+            $this->setVoteElection($election);
+        }
+        $this->user = e107::user(USERID);
+    }
 
-   // Privilege checks
-   function canViewElection($electionId) {
-      return $this->privs[$electionId]["view"];
-   }
-   function canViewElectionResults($electionId) {
-      return $this->privs[$electionId]["view_results"];
-   }
-   function canVoteElection($electionId) {
-      return $this->privs[$electionId]["vote"];
-   }
-   function isRestricted($value, $field) {
-      return ($value && $value == $this->user["user_$field"]);
-   }
+    // Setters
+    function setViewElection($election)
+    {
+        $this->privs[$election->getId()]["view"] = check_class($election->getViewClass());
+    }
+
+    function setViewElectionResults($election)
+    {
+        $this->privs[$election->getId()]["view_results"] = check_class($election->getViewResultsClass());
+    }
+
+    function setVoteElection($election)
+    {
+        $this->privs[$election->getId()]["vote"] = check_class($election->getVoteClass()) || USERID == $election->getOwnerId();
+    }
+
+    // Privilege checks
+    function canViewElection($electionId)
+    {
+        return $this->privs[$electionId]["view"];
+    }
+
+    function canViewElectionResults($electionId)
+    {
+        return $this->privs[$electionId]["view_results"];
+    }
+
+    function canVoteElection($electionId)
+    {
+        return $this->privs[$electionId]["vote"];
+    }
+
+    function isRestricted($value, $field)
+    {
+        return ($value && $value == $this->user["user_$field"]);
+    }
 }

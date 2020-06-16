@@ -17,22 +17,26 @@
 +----------------------------------------------------------------------------+
 */
 
-if (!defined('e107_INIT')) { exit; }
+if (!defined('e107_INIT'))
+{
+    exit;
+}
 
-require_once(e_PLUGIN."election/handlers/election_class.php");
+require_once(e_PLUGIN . "election/handlers/election_class.php");
 
 $advanced_caption['id'] = 'election';
 $advanced_caption['title']['all'] = ELEC_LAN_ELECTION;
 
 $advanced['election']['type'] = 'dropdown';
-$advanced['election']['text'] = ELEC_LAN_SEARCH_ELECTION.':';
+$advanced['election']['text'] = ELEC_LAN_SEARCH_ELECTION . ':';
 $advanced['election']['list'][] = array('id' => 'all', 'title' => ELEC_LAN_SEARCH_ELECTION_ALL);
 
 $elecdao = $elec->getDAO();
 $electionlist = $elecdao->getElectionList();
-foreach ($electionlist as $elecapp) {
-   $advanced['election']['list'][] = array('id' => $elecapp->getId(), 'title' => $elecapp->getName());
-	$advanced_caption['title'][$elecapp->getId()] = $elecapp->getName();
+foreach ($electionlist as $elecapp)
+{
+    $advanced['election']['list'][] = array('id' => $elecapp->getId(), 'title' => $elecapp->getName());
+    $advanced_caption['title'][$elecapp->getId()] = $elecapp->getName();
 }
 
 //$advanced['match']['type'] = 'dropdown';

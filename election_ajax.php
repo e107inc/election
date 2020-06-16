@@ -21,6 +21,7 @@
       $_REQUEST["action"] = "query";
       $_REQUEST["ajax"] = true;
    }
+
    require_once("../../class2.php");
    require_once(e_PLUGIN."election/handlers/election_class.php");
    require_once(ELECC_HANDLERS_DIR."/election_utils.php");
@@ -62,7 +63,7 @@
          $candidate = $dao->getCandidate($candidateid);
          $election = $dao->getElection($candidate->getElectionId());
 
-         $vote = new electionVote(false, $_POST);
+         $vote = new electionVoter(false, $_POST);
          if (false != $status = $vote->validateMe()) {
             $text = "<e107helperajax>";
             $text .= "<response type='killmessage' id='$popupid'></response>";

@@ -14,37 +14,48 @@
 | $Author: Neil $
 +---------------------------------------------------------------+
 */
+
 /**
  * Model Object for an Election Voter
  */
-class electionVoter {
-   var $voter;   // An array of voter field values
+class electionVoter
+{
+    var $voter;   // An array of voter field values
 
-   /**
-    * Constructor
-    * @param $voter a row from the voters table
-    * @param object $election  an election object for the election that this voter belongs to
-    */
-   function __construct($voter=false, $election=false) {
-      // Set some default values
-      $this->voter["election_voter_election_ids"]   = $election ? $election->getId() : 0;
+    /**
+     * Constructor
+     * @param $voter a row from the voters table
+     * @param object $election an election object for the election that this voter belongs to
+     */
+    function __construct($voter = false, $election = false)
+    {
+        // Set some default values
+        $this->voter["election_voter_election_ids"] = $election ? $election->getId() : 0;
 
-      if ($voter) {
-         $this->voter = array_merge($this->voter, $voter);
-      }
-   }
+        if ($voter)
+        {
+            $this->voter = array_merge($this->voter, $voter);
+        }
+    }
 
-   // Getters
-   function getUserId() {
-      return $this->voter["election_voter_user_id"];
-   }
-   function getElectionId() {
-      return $this->voter["election_voter_election_id"];
-   }
-   function getVotes() {
-      return explode(",", $this->voter["election_voter_votes"]);
-   }
-   function getTimestamp() {
-      return $this->voter["election_voter_timestamp"];
-   }
+    // Getters
+    function getUserId()
+    {
+        return $this->voter["election_voter_user_id"];
+    }
+
+    function getElectionId()
+    {
+        return $this->voter["election_voter_election_id"];
+    }
+
+    function getVotes()
+    {
+        return explode(",", $this->voter["election_voter_votes"]);
+    }
+
+    function getTimestamp()
+    {
+        return $this->voter["election_voter_timestamp"];
+    }
 }
